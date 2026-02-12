@@ -8,6 +8,22 @@ const DEMO_TOKEN = 'dummy-token';
 
 app.use(express.json());
 
+// Allow local frontend (port 4200) to call this API without CORS errors
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', 'http://localhost:4200');
+  res.header(
+    'Access-Control-Allow-Headers',
+    'Origin, X-Requested-With, Content-Type, Accept, Authorization'
+  );
+  res.header('Access-Control-Allow-Methods', 'GET, POST, PUT, PATCH, DELETE, OPTIONS');
+
+  if (req.method === 'OPTIONS') {
+    return res.sendStatus(204);
+  }
+
+  next();
+});
+
 app.post('/login', (req, res) => {
   const { username, password } = req.body || {};
 
