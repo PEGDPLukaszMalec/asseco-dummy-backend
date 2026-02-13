@@ -56,6 +56,24 @@ app.get('/profile', requireBearerToken, (_req, res) => {
   });
 });
 
+// Mock dashboard metrics consumed by the Angular demo
+app.get('/dashboard', requireBearerToken, (_req, res) => {
+  res.json({
+    uptimeHours: 248,
+    activeUsers: 142,
+    sla: 99.3,
+    incidents: {
+      open: 1,
+      resolvedThisWeek: 4,
+    },
+    services: [
+      { name: 'Payments', status: 'healthy', responseMsP95: 210 },
+      { name: 'Accounts', status: 'degraded', responseMsP95: 420 },
+      { name: 'Notifications', status: 'healthy', responseMsP95: 185 },
+    ],
+  });
+});
+
 app.listen(PORT, () => {
   console.log(`Dummy backend listening on port ${PORT}`);
 });
